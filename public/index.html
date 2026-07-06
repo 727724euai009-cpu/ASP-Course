@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Académie Française de Coimbatore</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --magenta: #C2185B;
+    --teal: #00BCD4;
+    --amber: #FFB300;
+    --charcoal: #1A1A2E;
+    --dark2: #16213E;
+    --offwhite: #F8F9FF;
+    --white: #ffffff;
+    --gray: #6B7280;
+    --light-gray: #F3F4F6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--offwhite);
+    color: var(--charcoal);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 1000;
+    background: var(--charcoal);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.4);
+  }
+  .nav-brand {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1rem;
+    color: var(--white); text-decoration: none; letter-spacing: 0.5px;
+  }
+  .nav-brand span { color: var(--amber); }
+  .eiffel-small { font-size: 1.4rem; }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a {
+    color: #ccc; text-decoration: none; font-size: 0.875rem; font-weight: 500;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.active { color: var(--amber); }
+  .nav-admin-btn {
+    background: var(--magenta); color: white; border: none;
+    padding: 8px 18px; border-radius: 20px; cursor: pointer;
+    font-size: 0.8rem; font-weight: 600; font-family: 'Inter', sans-serif;
+    transition: background 0.2s;
+  }
+  .nav-admin-btn:hover { background: #ad1457; }
+  .nav-admin-btn.logged-in { background: var(--teal); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: linear-gradient(135deg, var(--charcoal) 0%, var(--dark2) 50%, #0d3b4a 100%);
+    display: flex; align-items: center; justify-content: center;
+    padding: 80px 5% 40px;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-text {
+    position: absolute; font-family: 'Montserrat', sans-serif; font-weight: 900;
+    font-size: 22vw; color: rgba(0,188,212,0.04); white-space: nowrap;
+    top: 50%; left: 50%; transform: translate(-50%,-50%);
+    pointer-events: none; user-select: none;
+  }
+  .hero-content {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 60px;
+    max-width: 1200px; width: 100%; align-items: center; position: relative; z-index: 1;
+  }
+  .hero-left {}
+  .hero-eyebrow {
+    display: inline-block; background: var(--teal); color: var(--charcoal);
+    font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 6px 14px; border-radius: 3px; margin-bottom: 20px;
+  }
+  .hero-title {
+    font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(2.2rem, 5vw, 4rem);
+    color: var(--white); line-height: 1.1; margin-bottom: 12px;
+  }
+  .hero-title .accent { color: var(--amber); }
+  .hero-subtitle {
+    font-style: italic; color: #aab; font-size: 1rem; margin-bottom: 8px;
+  }
+  .hero-tagline {
+    color: var(--teal); font-weight: 600; font-size: 0.9rem;
+    letter-spacing: 1px; margin-bottom: 24px;
+  }
+  .hero-badges {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px;
+  }
+  .badge {
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+    color: #ddd; font-size: 0.8rem; padding: 5px 12px; border-radius: 20px;
+  }
+  .hero-cta { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    background: linear-gradient(90deg, var(--magenta), #e91e8c);
+    color: white; border: none; padding: 14px 32px; border-radius: 30px;
+    font-size: 0.95rem; font-weight: 700; cursor: pointer;
+    font-family: 'Inter', sans-serif; transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 20px rgba(194,24,91,0.5);
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(194,24,91,0.6); }
+  .btn-outline {
+    background: transparent; color: var(--teal); border: 2px solid var(--teal);
+    padding: 12px 28px; border-radius: 30px; font-size: 0.95rem; font-weight: 600;
+    cursor: pointer; font-family: 'Inter', sans-serif; transition: all 0.2s;
+  }
+  .btn-outline:hover { background: var(--teal); color: var(--charcoal); }
+
+  /* Eiffel Tower SVG */
+  .hero-right {
+    display: flex; align-items: center; justify-content: center; flex-direction: column;
+  }
+  .eiffel-container {
+    position: relative; display: flex; align-items: center; justify-content: center;
+  }
+  .eiffel-glow {
+    position: absolute; width: 200px; height: 200px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(0,188,212,0.3), transparent 70%);
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { transform: scale(1); opacity: 0.6; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+  .eiffel-svg { width: 160px; position: relative; z-index: 1; animation: floatUp 4s ease-in-out infinite; }
+  @keyframes floatUp {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+  }
+  .hero-info-cards {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 32px; width: 100%;
+  }
+  .info-card {
+    background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 12px; padding: 16px 12px; text-align: center;
+  }
+  .info-card .ic-val { font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: 1.5rem; color: var(--amber); }
+  .info-card .ic-lbl { font-size: 0.7rem; color: #aab; margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+  /* ── SECTION SHARED ── */
+  section { padding: 80px 5%; }
+  .section-header { text-align: center; margin-bottom: 48px; }
+  .section-eyebrow {
+    display: inline-block; color: var(--teal); font-size: 0.75rem; font-weight: 700;
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px;
+  }
+  .section-title {
+    font-family: 'Montserrat', sans-serif; font-weight: 900; font-size: clamp(1.8rem, 4vw, 2.8rem);
+    color: var(--charcoal);
+  }
+  .section-title .hl { color: var(--magenta); }
+
+  /* ── LANGUAGES ── */
+  #languages { background: var(--white); }
+  .lang-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 24px; max-width: 1100px; margin: 0 auto; }
+  .lang-card {
+    border-radius: 16px; padding: 32px 20px; text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s; cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .lang-card:hover { transform: translateY(-6px); box-shadow: 0 12px 40px rgba(0,0,0,0.12); }
+  .lang-card.featured { background: linear-gradient(135deg, var(--magenta), #880e4f); color: white; }
+  .lang-card.featured2 { background: linear-gradient(135deg, var(--teal), #006064); color: white; }
+  .lang-card.normal { background: var(--light-gray); color: var(--charcoal); }
+  .lang-card.tamil-card { background: linear-gradient(135deg, #FF6F00, #FF8F00); color: white; }
+  .lang-card.english-card { background: linear-gradient(135deg, #6A1B9A, #AB47BC); color: white; }
+  .lang-card.hindi-card { background: linear-gradient(135deg, #E65100, #F4511E); color: white; }
+  .lang-card.sanskrit-card { background: linear-gradient(135deg, #2E7D32, #43A047); color: white; }
+  .lang-card.tamil { background: linear-gradient(135deg, #FF6F00, #E65100); color: white; }
+  .lang-card.english { background: linear-gradient(135deg, #6A1B9A, #4A148C); color: white; }
+  .lang-card.hindi { background: linear-gradient(135deg, #2E7D32, #1B5E20); color: white; }
+  .lang-card.sanskrit { background: linear-gradient(135deg, #F57F17, #E65100); color: white; }
+  .lang-flag { font-size: 2.4rem; margin-bottom: 12px; }
+  .lang-name { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.1rem; }
+  .lang-desc { font-size: 0.75rem; opacity: 0.75; margin-top: 6px; }
+
+  /* ── MODE OF LEARNING ── */
+  #modes { background: var(--charcoal); }
+  #modes .section-title { color: var(--white); }
+  .modes-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 24px; max-width: 900px; margin: 0 auto; }
+  .mode-card {
+    background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px; padding: 32px 24px; text-align: center; transition: all 0.2s;
+  }
+  .mode-card:hover { background: rgba(0,188,212,0.1); border-color: var(--teal); transform: translateY(-4px); }
+  .mode-icon { font-size: 2.8rem; margin-bottom: 14px; }
+  .mode-title { font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--white); font-size: 1.1rem; margin-bottom: 8px; }
+  .mode-desc { color: #aab; font-size: 0.82rem; line-height: 1.6; }
+
+  /* ── BROCHURES ── */
+  #brochures { background: var(--offwhite); }
+  .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 24px; max-width: 1200px; margin: 0 auto; }
+  .doc-card {
+    background: var(--white); border-radius: 16px; overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.07); transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .doc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.12); }
+  .doc-thumb {
+    height: 160px; display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; position: relative;
+  }
+  .doc-thumb.brochure-bg { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+  .doc-thumb.ematerial-bg { background: linear-gradient(135deg, #e0f7fa, #b2ebf2); }
+  .doc-body { padding: 18px 20px 20px; }
+  .doc-type-tag {
+    display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; padding: 3px 10px; border-radius: 10px; margin-bottom: 8px;
+  }
+  .tag-brochure { background: #fce4ec; color: var(--magenta); }
+  .tag-ematerial { background: #e0f7fa; color: #00838f; }
+  .doc-title { font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 1rem; margin-bottom: 6px; }
+  .doc-desc { color: var(--gray); font-size: 0.8rem; line-height: 1.5; margin-bottom: 16px; }
+  .doc-footer { display: flex; align-items: center; justify-content: space-between; }
+  .doc-date { font-size: 0.72rem; color: #aaa; }
+  .btn-download {
+    background: var(--charcoal); color: white; border: none; padding: 8px 18px;
+    border-radius: 20px; font-size: 0.78rem; font-weight: 600; cursor: pointer;
+    font-family: 'Inter', sans-serif; transition: background 0.2s; display: flex; align-items: center; gap: 6px;
+  }
+  .btn-download:hover { background: var(--magenta); }
+  .no-docs { text-align: center; color: var(--gray); padding: 40px; font-size: 0.9rem; }
+
+  /* ── ADMIN UPLOAD AREA (only shown when logged in) ── */
+  .admin-upload-section {
+    display: none; max-width: 1200px; margin: 0 auto 40px;
+    background: linear-gradient(135deg, #fff9e6, #fff3e0);
+    border: 2px dashed var(--amber); border-radius: 16px; padding: 28px 32px;
+  }
+  .admin-upload-section.visible { display: block; }
+  .admin-upload-title {
+    font-family: 'Montserrat', sans-serif; font-weight: 800; color: var(--charcoal);
+    margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+  }
+  .admin-upload-title span { background: var(--amber); color: var(--charcoal); font-size: 0.7rem; padding: 3px 8px; border-radius: 10px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  .upload-form { display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end; flex-wrap: wrap; }
+  .upload-form input, .upload-form textarea, .upload-form select {
+    border: 1.5px solid #ddd; border-radius: 10px; padding: 10px 14px;
+    font-family: 'Inter', sans-serif; font-size: 0.85rem; outline: none;
+    transition: border-color 0.2s;
+  }
+  .upload-form input:focus, .upload-form textarea:focus { border-color: var(--amber); }
+  .upload-form label { font-size: 0.78rem; font-weight: 600; color: var(--charcoal); display: block; margin-bottom: 4px; }
+  .btn-upload {
+    background: var(--magenta); color: white; border: none; padding: 12px 24px;
+    border-radius: 10px; font-weight: 700; font-size: 0.85rem; cursor: pointer;
+    font-family: 'Inter', sans-serif; white-space: nowrap; transition: background 0.2s;
+    height: fit-content;
+  }
+  .btn-upload:hover { background: #ad1457; }
+  .admin-doc-actions { display: flex; gap: 8px; }
+  .btn-delete {
+    background: #ffebee; color: #c62828; border: none; padding: 6px 12px;
+    border-radius: 16px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
+    font-family: 'Inter', sans-serif; transition: background 0.2s;
+  }
+  .btn-delete:hover { background: #ffcdd2; }
+
+  /* ── CONTACT ── */
+  #contact { background: var(--charcoal); }
+  #contact .section-title { color: white; }
+  .contact-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; max-width: 1000px; margin: 0 auto; }
+  .contact-info { }
+  .contact-item { display: flex; gap: 16px; margin-bottom: 28px; align-items: flex-start; }
+  .contact-icon {
+    width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center;
+    justify-content: center; font-size: 1.2rem; flex-shrink: 0;
+  }
+  .ci-phone { background: rgba(194,24,91,0.2); }
+  .ci-loc { background: rgba(0,188,212,0.2); }
+  .contact-label { font-size: 0.75rem; color: #888; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .contact-val { color: white; font-weight: 600; font-size: 1rem; }
+  .contact-sub { color: #aab; font-size: 0.82rem; margin-top: 2px; }
+  .contact-form { background: rgba(255,255,255,0.05); border-radius: 16px; padding: 28px; border: 1px solid rgba(255,255,255,0.08); }
+  .contact-form h3 { color: var(--teal); font-family: 'Montserrat', sans-serif; font-weight: 700; margin-bottom: 20px; }
+  .form-row { margin-bottom: 16px; }
+  .form-row label { display: block; font-size: 0.78rem; color: #aab; margin-bottom: 6px; font-weight: 500; }
+  .form-row input, .form-row textarea, .form-row select {
+    width: 100%; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12);
+    color: white; border-radius: 8px; padding: 10px 14px; font-family: 'Inter', sans-serif;
+    font-size: 0.85rem; outline: none; transition: border-color 0.2s;
+  }
+  .form-row input:focus, .form-row textarea:focus, .form-row select:focus { border-color: var(--teal); }
+  .form-row textarea { resize: vertical; height: 80px; }
+  .form-row select option { background: var(--charcoal); }
+  .btn-send {
+    width: 100%; background: linear-gradient(90deg, var(--magenta), #e91e8c);
+    color: white; border: none; padding: 13px; border-radius: 10px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; font-family: 'Inter', sans-serif;
+    transition: opacity 0.2s;
+  }
+  .btn-send:hover { opacity: 0.9; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0d0d1a; padding: 32px 5%; text-align: center;
+    color: #555; font-size: 0.8rem;
+  }
+  footer strong { color: var(--amber); }
+
+  /* ── MODAL ── */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7);
+    z-index: 2000; align-items: center; justify-content: center;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: white; border-radius: 20px; padding: 40px; max-width: 380px; width: 90%;
+    position: relative;
+  }
+  .modal-title { font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.4rem; margin-bottom: 6px; }
+  .modal-subtitle { color: var(--gray); font-size: 0.85rem; margin-bottom: 24px; }
+  .modal-input {
+    width: 100%; border: 2px solid #e5e7eb; border-radius: 10px; padding: 12px 16px;
+    font-size: 0.9rem; font-family: 'Inter', sans-serif; outline: none;
+    transition: border-color 0.2s; margin-bottom: 14px;
+  }
+  .modal-input:focus { border-color: var(--magenta); }
+  .modal-btn {
+    width: 100%; background: var(--magenta); color: white; border: none; padding: 13px;
+    border-radius: 10px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+    font-family: 'Inter', sans-serif; margin-bottom: 10px;
+  }
+  .modal-close {
+    position: absolute; top: 16px; right: 20px; background: none; border: none;
+    font-size: 1.4rem; cursor: pointer; color: #999;
+  }
+  .modal-error { color: var(--magenta); font-size: 0.8rem; display: none; margin-bottom: 10px; }
+  .modal-hint { font-size: 0.72rem; color: #bbb; text-align: center; }
+
+  /* Toast */
+  .toast {
+    position: fixed; bottom: 30px; right: 30px; background: var(--charcoal);
+    color: white; padding: 14px 22px; border-radius: 12px; font-size: 0.85rem;
+    font-weight: 600; z-index: 3000; transform: translateY(80px); opacity: 0;
+    transition: all 0.35s; display: flex; align-items: center; gap: 10px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-left: 4px solid var(--teal); }
+  .toast.error { border-left: 4px solid var(--magenta); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero-content { grid-template-columns: 1fr; }
+    .hero-right { margin-top: 24px; }
+    .contact-wrapper { grid-template-columns: 1fr; gap: 32px; }
+    .upload-form { grid-template-columns: 1fr; }
+    nav { padding: 0 4%; }
+    .nav-links { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-brand" href="#hero">
+    <span class="eiffel-small">🗼</span>
+    <div><span>AFC</span> Coimbatore</div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#hero" class="active">Home</a></li>
+    <li><a href="#languages">Languages</a></li>
+    <li><a href="#modes">Classes</a></li>
+    <li><a href="#brochures">Brochures</a></li>
+    <li><a href="#ematerials">E-Materials</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-admin-btn" id="adminToggleBtn" onclick="openAdminModal()">⚙ Admin</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg-text">AFC</div>
+  <div class="hero-content">
+    <div class="hero-left">
+      <div class="hero-eyebrow">🇫🇷 Est. Coimbatore, India</div>
+      <h1 class="hero-title">
+        Académie<br>
+        Française<br>
+        <span class="accent">de Coimbatore</span>
+      </h1>
+      <p class="hero-subtitle">Le Jardin des Langues du Monde</p>
+      <p class="hero-tagline">✦ The Garden of World Languages ✦</p>
+      <div class="hero-badges">
+        <span class="badge">🇫🇷 French</span>
+        <span class="badge">🇩🇪 German</span>
+        <span class="badge">🕉 Sanskrit</span>
+        <span class="badge">🇮🇳 Tamil · Hindi · English</span>
+      </div>
+      <div class="hero-cta">
+        <button class="btn-primary" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Enroll Now</button>
+        <button class="btn-outline" onclick="document.getElementById('brochures').scrollIntoView({behavior:'smooth'})">View Brochures</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="eiffel-container">
+        <div class="eiffel-glow"></div>
+        <svg class="eiffel-svg" viewBox="0 0 100 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="47" y="0" width="6" height="20" fill="#00BCD4"/>
+          <polygon points="20,90 50,20 80,90" fill="none" stroke="#00BCD4" stroke-width="3"/>
+          <polygon points="10,140 50,85 90,140" fill="none" stroke="#FFB300" stroke-width="3"/>
+          <rect x="22" y="88" width="56" height="6" rx="3" fill="#FFB300"/>
+          <rect x="12" y="138" width="76" height="6" rx="3" fill="#C2185B"/>
+          <polygon points="12,144 50,195 88,144" fill="none" stroke="#C2185B" stroke-width="3"/>
+          <rect x="38" y="190" width="24" height="10" rx="3" fill="#C2185B"/>
+          <line x1="30" y1="91" x2="30" y2="141" stroke="#00BCD4" stroke-width="2"/>
+          <line x1="70" y1="91" x2="70" y2="141" stroke="#00BCD4" stroke-width="2"/>
+          <line x1="22" y1="115" x2="78" y2="115" stroke="#FFB300" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="hero-info-cards">
+        <div class="info-card"><div class="ic-val">7+</div><div class="ic-lbl">Languages</div></div>
+        <div class="info-card"><div class="ic-val">3</div><div class="ic-lbl">Modes</div></div>
+        <div class="info-card"><div class="ic-val">Flex</div><div class="ic-lbl">Schedule</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LANGUAGES -->
+<section id="languages">
+  <div class="section-header">
+    <div class="section-eyebrow">What We Teach</div>
+    <h2 class="section-title">Languages We <span class="hl">Offer</span></h2>
+  </div>
+  <div class="lang-grid">
+    <div class="lang-card featured">
+      <div class="lang-flag">🇫🇷</div>
+      <div class="lang-name">French</div>
+      <div class="lang-desc">All levels · DELF/DALF prep</div>
+    </div>
+    <div class="lang-card featured2">
+      <div class="lang-flag">🇩🇪</div>
+      <div class="lang-name">German</div>
+      <div class="lang-desc">All levels · Goethe cert prep</div>
+    </div>
+    <div class="lang-card tamil-card">
+      <div class="lang-flag">🇮🇳</div>
+      <div class="lang-name">Tamil</div>
+      <div class="lang-desc">Classical & Modern Tamil</div>
+    </div>
+    <div class="lang-card english-card">
+      <div class="lang-flag">🇬🇧</div>
+      <div class="lang-name">English</div>
+      <div class="lang-desc">Spoken & Written English</div>
+    </div>
+    <div class="lang-card hindi-card">
+      <div class="lang-flag">🇮🇳</div>
+      <div class="lang-name">Hindi</div>
+      <div class="lang-desc">Beginner to Advanced</div>
+    </div>
+    <div class="lang-card sanskrit-card">
+      <div class="lang-flag">🕉</div>
+      <div class="lang-name">Sanskrit</div>
+      <div class="lang-desc">Classical texts & grammar</div>
+    </div>
+  </div>
+</section>
+
+<!-- MODES -->
+<section id="modes">
+  <div class="section-header">
+    <div class="section-eyebrow">How You Learn</div>
+    <h2 class="section-title" style="color:white">Flexible <span style="color:var(--teal)">Learning Modes</span></h2>
+  </div>
+  <div class="modes-grid">
+    <div class="mode-card">
+      <div class="mode-icon">🏫</div>
+      <div class="mode-title">Offline Classes</div>
+      <div class="mode-desc">In-person at our center near PSGR Krishnammal College, Avinashi Rd, Coimbatore.</div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">💻</div>
+      <div class="mode-title">Online Classes</div>
+      <div class="mode-desc">Live instructor-led sessions from the comfort of your home. Full interactivity.</div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">🔄</div>
+      <div class="mode-title">Hybrid Mode</div>
+      <div class="mode-desc">The best of both worlds — blend offline attendance with online flexibility.</div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">📅</div>
+      <div class="mode-title">Weekend Batch</div>
+      <div class="mode-desc">Designed for working professionals and students with weekday commitments.</div>
+    </div>
+    <div class="mode-card">
+      <div class="mode-icon">⏰</div>
+      <div class="mode-title">Flexitime</div>
+      <div class="mode-desc">Choose your own schedule. We accommodate your timetable, not ours.</div>
+    </div>
+  </div>
+</section>
+
+<!-- BROCHURES -->
+<section id="brochures">
+  <div class="section-header">
+    <div class="section-eyebrow">Downloads</div>
+    <h2 class="section-title">Upcoming <span class="hl">Brochures</span></h2>
+  </div>
+
+  <!-- Admin upload for brochures -->
+  <div class="admin-upload-section" id="brochureUploadArea">
+    <div class="admin-upload-title">📁 Upload Brochure <span>Admin Only</span></div>
+    <div class="upload-form">
+      <div>
+        <label>Brochure Title</label>
+        <input type="text" id="brochureTitle" placeholder="e.g. French Batch July 2026"/>
+      </div>
+      <div>
+        <label>Description</label>
+        <input type="text" id="brochureDesc" placeholder="Brief description"/>
+      </div>
+      <div>
+        <label>PDF File</label>
+        <input type="file" id="brochureFile" accept=".pdf"/>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn-upload" onclick="uploadDoc('brochure')">📤 Post Brochure</button>
+    </div>
+  </div>
+
+  <div class="doc-grid" id="brochureGrid">
+    <div class="no-docs" id="noBrochures">No brochures posted yet. Check back soon!</div>
+  </div>
+</section>
+
+<!-- E-MATERIALS -->
+<section id="ematerials" style="background: var(--white);">
+  <div class="section-header">
+    <div class="section-eyebrow">Study Resources</div>
+    <h2 class="section-title">E-<span class="hl">Materials</span></h2>
+  </div>
+
+  <!-- Admin upload for e-materials -->
+  <div class="admin-upload-section" id="ematerialUploadArea">
+    <div class="admin-upload-title">📚 Upload E-Material <span>Admin Only</span></div>
+    <div class="upload-form">
+      <div>
+        <label>Material Title</label>
+        <input type="text" id="ematerialTitle" placeholder="e.g. French Grammar Guide"/>
+      </div>
+      <div>
+        <label>Description</label>
+        <input type="text" id="ematerialDesc" placeholder="Brief description"/>
+      </div>
+      <div>
+        <label>PDF File</label>
+        <input type="file" id="ematerialFile" accept=".pdf"/>
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <button class="btn-upload" onclick="uploadDoc('ematerial')">📤 Post E-Material</button>
+    </div>
+  </div>
+
+  <div class="doc-grid" id="ematerialGrid">
+    <div class="no-docs" id="noEmaterials">No e-materials posted yet. Check back soon!</div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-eyebrow">Get In Touch</div>
+    <h2 class="section-title" style="color:white">Contact <span style="color:var(--amber)">Us</span></h2>
+  </div>
+  <div class="contact-wrapper">
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon ci-phone">📞</div>
+        <div>
+          <div class="contact-label">Phone</div>
+          <div class="contact-val">96007 18 357</div>
+          <div class="contact-sub">96007 19 357</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon ci-loc">📍</div>
+        <div>
+          <div class="contact-label">Location</div>
+          <div class="contact-val">PSGR Krishnammal College Stop</div>
+          <div class="contact-sub">Avinashi Rd, Coimbatore – 641 004</div>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon" style="background:rgba(255,179,0,0.2)">🕐</div>
+        <div>
+          <div class="contact-label">Timings</div>
+          <div class="contact-val">Mon – Sat: 9am – 7pm</div>
+          <div class="contact-sub">Weekend Batches Available</div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <h3>Send an Enquiry</h3>
+      <div class="form-row">
+        <label>Your Name</label>
+        <input id="enquiryName" type="text" placeholder="Full name"/>
+      </div>
+      <div class="form-row">
+        <label>Email</label>
+        <input id="enquiryEmail" type="email" placeholder="you@example.com"/>
+      </div>
+      <div class="form-row">
+        <label>Phone / WhatsApp</label>
+        <input id="enquiryPhone" type="text" placeholder="+91 XXXXX XXXXX"/>
+      </div>
+      <div class="form-row">
+        <label>Language of Interest</label>
+        <select id="enquiryLanguage">
+          <option value="">Select a language</option>
+          <option>French</option>
+          <option>German</option>
+          <option>Tamil</option>
+          <option>Hindi</option>
+          <option>English</option>
+          <option>Sanskrit</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <label>Message (optional)</label>
+        <textarea id="enquiryMessage" placeholder="Any questions or preferred timing?"></textarea>
+      </div>
+      <button class="btn-send" onclick="sendEnquiry()">Send Enquiry →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© 2026 <strong>Académie Française de Coimbatore</strong> · Le Jardin des Langues du Monde · All rights reserved.</p>
+  <p style="margin-top:6px">PSGR Krishnammal College Stop, Avinashi Rd, Coimbatore – 641 004 · 96007 18 357 / 96007 19 357</p>
+</footer>
+
+<!-- ADMIN LOGIN MODAL -->
+<div class="modal-overlay" id="adminModal">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeAdminModal()">✕</button>
+    <div class="modal-title">Admin Login</div>
+    <p class="modal-subtitle">Enter your admin password to manage brochures and e-materials.</p>
+    <input class="modal-input" type="password" id="adminPwInput" placeholder="Enter admin password" onkeydown="if(event.key==='Enter') checkAdmin()"/>
+    <div class="modal-error" id="adminError">❌ Incorrect password. Try again.</div>
+    <button class="modal-btn" onclick="checkAdmin()">Login as Admin</button>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+  // ── State ──
+  let token = localStorage.getItem('afc_token') || '';
+  let isAdmin = false;
+  let brochures = [];
+  let ematerials = [];
+
+  // ── Admin Modal ──
+  function openAdminModal() {
+    if (isAdmin) {
+      logoutAdmin();
+      return;
+    }
+    document.getElementById('adminModal').classList.add('open');
+    setTimeout(() => document.getElementById('adminPwInput').focus(), 100);
+  }
+
+  function closeAdminModal() {
+    document.getElementById('adminModal').classList.remove('open');
+    document.getElementById('adminPwInput').value = '';
+    document.getElementById('adminError').style.display = 'none';
+  }
+
+  async function checkAdmin() {
+    const password = document.getElementById('adminPwInput').value;
+
+    try {
+      const response = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: 'admin',
+          password
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        document.getElementById('adminError').style.display = 'block';
+        return;
+      }
+
+      token = data.token;
+      localStorage.setItem('afc_token', token);
+      isAdmin = true;
+
+      closeAdminModal();
+      enableAdminMode();
+      showToast('✅ Logged in as Admin', 'success');
+    } catch (error) {
+      showToast('❌ Server connection failed', 'error');
+    }
+  }
+
+  async function verifyAdminSession() {
+    if (!token) return;
+
+    try {
+      const response = await fetch('/api/auth/me', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+
+      if (response.ok) {
+        isAdmin = true;
+        enableAdminMode();
+      } else {
+        localStorage.removeItem('afc_token');
+        token = '';
+        isAdmin = false;
+      }
+    } catch (error) {
+      console.error('Session verification failed:', error);
+    }
+  }
+
+  function enableAdminMode() {
+    document.getElementById('adminToggleBtn').textContent = '🔓 Logout Admin';
+    document.getElementById('adminToggleBtn').classList.add('logged-in');
+    document.getElementById('brochureUploadArea').classList.add('visible');
+    document.getElementById('ematerialUploadArea').classList.add('visible');
+    renderDocs();
+  }
+
+  function logoutAdmin() {
+    token = '';
+    isAdmin = false;
+    localStorage.removeItem('afc_token');
+
+    document.getElementById('adminToggleBtn').textContent = '⚙ Admin';
+    document.getElementById('adminToggleBtn').classList.remove('logged-in');
+    document.getElementById('brochureUploadArea').classList.remove('visible');
+    document.getElementById('ematerialUploadArea').classList.remove('visible');
+
+    renderDocs();
+    showToast('👋 Logged out of Admin', 'success');
+  }
+
+  // ── Load Documents ──
+  async function loadBrochures() {
+    try {
+      const response = await fetch('/api/brochures');
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error || 'Failed to load brochures');
+
+      brochures = data;
+      renderDocs();
+    } catch (error) {
+      console.error(error);
+      showToast('❌ Failed to load brochures', 'error');
+    }
+  }
+
+  async function loadEmaterials() {
+    try {
+      const response = await fetch('/api/ematerials');
+      const data = await response.json();
+
+      if (!response.ok) throw new Error(data.error || 'Failed to load e-materials');
+
+      ematerials = data;
+      renderDocs();
+    } catch (error) {
+      console.error(error);
+      showToast('❌ Failed to load e-materials', 'error');
+    }
+  }
+
+  // ── Upload ──
+  async function uploadDoc(type) {
+    if (!isAdmin || !token) {
+      showToast('❌ Admin login required', 'error');
+      return;
+    }
+
+    const isBrochure = type === 'brochure';
+    const titleEl = document.getElementById(isBrochure ? 'brochureTitle' : 'ematerialTitle');
+    const descEl = document.getElementById(isBrochure ? 'brochureDesc' : 'ematerialDesc');
+    const fileEl = document.getElementById(isBrochure ? 'brochureFile' : 'ematerialFile');
+
+    const title = titleEl.value.trim();
+    const description = descEl.value.trim();
+    const file = fileEl.files[0];
+
+    if (!title) {
+      showToast('❌ Please enter a title', 'error');
+      return;
+    }
+
+    if (!file) {
+      showToast('❌ Please select a PDF file', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('title', title);
+    formData.append('description', description);
+    formData.append('file', file);
+
+    const endpoint = isBrochure ? '/api/brochures' : '/api/ematerials';
+
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        if (response.status === 401) logoutAdmin();
+        showToast(`❌ ${data.error || 'Upload failed'}`, 'error');
+        return;
+      }
+
+      titleEl.value = '';
+      descEl.value = '';
+      fileEl.value = '';
+
+      await Promise.all([loadBrochures(), loadEmaterials()]);
+      showToast('✅ Posted successfully!', 'success');
+    } catch (error) {
+      console.error(error);
+      showToast('❌ Upload failed', 'error');
+    }
+  }
+
+  // ── Delete ──
+  async function deleteDoc(type, id) {
+  try {
+    const url = type === 'brochure'
+      ? `/api/brochures/${id}`
+      : `/api/ematerials/${id}`;
+
+    console.log('DELETE URL:', url);
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const text = await response.text();
+      console.error('Delete response:', text);
+
+      throw new Error(
+        `Delete failed: HTTP ${response.status}`
+      );
+    }
+
+    if (type === 'brochure') {
+      await loadBrochures();
+    } else {
+      await loadEmaterials();
+    }
+
+    showToast('🗑️ Deleted successfully', 'success');
+
+  } catch (err) {
+    console.error(err);
+    showToast('❌ ' + err.message, 'error');
+  }
+}
+
+  // ── Enquiry ──
+  async function sendEnquiry() {
+    const name = document.getElementById('enquiryName').value.trim();
+    const email = document.getElementById('enquiryEmail').value.trim();
+    const phone = document.getElementById('enquiryPhone').value.trim();
+    const language = document.getElementById('enquiryLanguage').value;
+    const message = document.getElementById('enquiryMessage').value.trim();
+
+    if (!name || !email) {
+      showToast('❌ Name and email are required', 'error');
+      return;
+    }
+
+    try {
+      const response = await fetch('/api/enquiries', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name,
+          email,
+          phone,
+          language,
+          mode: '',
+          message
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        showToast(`❌ ${data.error || 'Failed to send enquiry'}`, 'error');
+        return;
+      }
+
+      document.getElementById('enquiryName').value = '';
+      document.getElementById('enquiryEmail').value = '';
+      document.getElementById('enquiryPhone').value = '';
+      document.getElementById('enquiryLanguage').value = '';
+      document.getElementById('enquiryMessage').value = '';
+
+      showToast('✅ Enquiry sent! We will call you soon.', 'success');
+    } catch (error) {
+      console.error(error);
+      showToast('❌ Failed to send enquiry', 'error');
+    }
+  }
+
+  // ── Safe rendering helpers ──
+  function escapeHtml(value = '') {
+    return String(value)
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;');
+  }
+
+  // ── Render ──
+  function renderDocs() {
+    renderList('brochure', brochures, 'brochureGrid');
+    renderList('ematerial', ematerials, 'ematerialGrid');
+  }
+
+  function renderList(type, docs, gridId) {
+    const grid = document.getElementById(gridId);
+    grid.innerHTML = '';
+
+    if (!docs.length) {
+      const empty = document.createElement('div');
+      empty.className = 'no-docs';
+      empty.textContent =
+        type === 'brochure'
+          ? 'No brochures posted yet. Check back soon!'
+          : 'No e-materials posted yet. Check back soon!';
+      grid.appendChild(empty);
+      return;
+    }
+
+    docs.forEach(doc => {
+      const isBrochure = type === 'brochure';
+      const card = document.createElement('div');
+      card.className = 'doc-card';
+
+      const safeTitle = escapeHtml(doc.title);
+      const safeDescription = escapeHtml(doc.description || 'Download to view');
+      const safeDate = escapeHtml(doc.date || '');
+      const safeUrl = encodeURI(doc.downloadUrl || '#');
+
+      card.innerHTML = `
+        <div class="doc-thumb ${isBrochure ? 'brochure-bg' : 'ematerial-bg'}">
+          <span style="font-size:3rem">${isBrochure ? '📋' : '📖'}</span>
+        </div>
+        <div class="doc-body">
+          <span class="doc-type-tag ${isBrochure ? 'tag-brochure' : 'tag-ematerial'}">
+            ${isBrochure ? 'Brochure' : 'E-Material'}
+          </span>
+          <div class="doc-title">${safeTitle}</div>
+          <div class="doc-desc">${safeDescription}</div>
+          <div class="doc-footer">
+            <span class="doc-date">📅 ${safeDate}</span>
+            <div style="display:flex;gap:8px;align-items:center">
+              ${isAdmin ? `<button class="btn-delete" data-type="${type}" data-id="${doc.id}">🗑 Delete</button>` : ''}
+              <a class="btn-download" href="${safeUrl}" target="_blank" rel="noopener" style="text-decoration:none">
+                ⬇ Download PDF
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+
+      const deleteButton = card.querySelector('.btn-delete');
+      if (deleteButton) {
+        deleteButton.addEventListener('click', () => deleteDoc(type, doc.id));
+      }
+
+      grid.appendChild(card);
+    });
+  }
+
+  // ── Toast ──
+  function showToast(msg, type = 'success') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = `toast ${type} show`;
+    setTimeout(() => t.classList.remove('show'), 3200);
+  }
+
+  // ── Init ──
+  async function init() {
+    await verifyAdminSession();
+    await Promise.all([loadBrochures(), loadEmaterials()]);
+  }
+
+  init();
+
+  // Smooth scroll for nav
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
